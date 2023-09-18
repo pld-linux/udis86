@@ -1,0 +1,12 @@
+diff -up udis86-56ff6c8/m4/ax_prog_sphinx_version.m4.orig udis86-56ff6c8/m4/ax_prog_sphinx_version.m4
+--- udis86-56ff6c8/m4/ax_prog_sphinx_version.m4.orig	2014-12-25 07:00:50.000000000 -0500
++++ udis86-56ff6c8/m4/ax_prog_sphinx_version.m4	2019-05-01 14:20:35.330757713 -0400
+@@ -40,7 +40,7 @@ AC_DEFUN([AX_PROG_SPHINX],[
+ 
+         AC_MSG_CHECKING([for sphinx version])
+         changequote(<<,>>)
+-        sphinx_version=`$SPHINX_BUILD -h 2>&1 | $GREP "^Sphinx v" | $SED -e 's/^.* v\([0-9]*\.[0-9]*\.[0-9]*\)/\1/'`
++        sphinx_version=`$SPHINX_BUILD --version 2>&1 | cut -d ' ' -f 2`
+         changequote([,])
+         AC_MSG_RESULT($sphinx_version)
+ 

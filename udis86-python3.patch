@@ -1,0 +1,44 @@
+--- udis86-1.7.2/scripts/ud_opcode.py.orig	2023-09-18 19:05:37.714853016 +0200
++++ udis86-1.7.2/scripts/ud_opcode.py	2023-09-18 19:06:54.114439124 +0200
+@@ -130,8 +130,8 @@ class UdOpcodeTables:
+             '/mod'   : lambda v: '00' if v == '!11' else '01',
+             # Mode extensions:
+             # (16, 32, 64) => (00, 01, 02)
+-            '/o'     : lambda v: "%02x" % (int(v) / 32),
+-            '/a'     : lambda v: "%02x" % (int(v) / 32),
++            '/o'     : lambda v: "%02x" % (int(v) // 32),
++            '/a'     : lambda v: "%02x" % (int(v) // 32),
+             '/m'     : lambda v: '00' if v == '!64' else '01',
+             # SSE
+             '/sse'   : lambda v: UdOpcodeTables.OpcExtIndex['sse'][v],
+@@ -227,9 +227,7 @@ class UdOpcodeTables:
+ 
+     def print_table( self, table, pfxs ):
+         print("%s   |" % pfxs)
+-        keys = table[ 'entries' ].keys()
+-        if ( len( keys ) ):
+-            keys.sort()
++        keys = sorted(table[ 'entries' ].keys())
+         for idx in keys:
+             e = table[ 'entries' ][ idx ]
+             if e[ 'type' ] == 'insn':
+--- udis86-1.7.2/tests/oprgen.py.orig	2013-09-02 06:16:37.000000000 +0200
++++ udis86-1.7.2/tests/oprgen.py	2023-09-18 19:24:12.082149303 +0200
+@@ -686,7 +686,7 @@ class UdTestGenerator( ud_opcode.UdOpcod
+     def generate_yasm( self, mode, seed ):
+         opr_combos = {}
+         random.seed( seed )
+-        print "[bits %s]" % mode
++        print("[bits %s]" % mode)
+         for insn in self.InsnTable:
+             if insn[ 'mnemonic' ] in self.ExcludeList:
+                 continue
+@@ -728,7 +728,7 @@ class UdTestGenerator( ud_opcode.UdOpcod
+                 else:
+                     operands = None
+             if operands is not None:
+-                print "\t%s %s" % (insn['mnemonic'], operands)
++                print("\t%s %s" % (insn['mnemonic'], operands))
+                 opr_combos[fusedName]['covered'] = True
+ 
+         # stats
